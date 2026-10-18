@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ladrillo: Robux e ítems de Roblox</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Sora:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A0C11;--s1:#12151C;--s2:#191D28;--line:rgba(255,255,255,.08);--ink:#E6EAF2;--mut:rgba(230,234,242,.62);--a:#22D3EE;--b:#818CF8;--ad:#0E7490;--amber:#FBBF24;--good:#34D399;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-behavior:smooth;scroll-padding-top:calc(76px + env(safe-area-inset-top,0px))}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 "DM Sans",system-ui,sans-serif;overflow-x:clip}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:70}
+h1,h2,h3,p{margin:0}h1,h2,h3{font-family:Sora,"DM Sans",sans-serif;letter-spacing:-.02em}
+a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer;color:inherit}
+:focus-visible{outline:2px solid var(--a);outline-offset:2px}
+.w{max-width:1216px;margin:0 auto;padding:0 24px}
+.card{background:var(--s1);border:1px solid var(--line);border-radius:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 10px 24px -10px rgba(0,0,0,.55);transition:transform .3s,border-color .3s,background .3s}
+a.card:hover,.lift:hover{transform:translateY(-4px);background:var(--s2);border-color:rgba(34,211,238,.35)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;background:linear-gradient(90deg,var(--a),var(--b));color:#06121A;font:800 14px Sora,sans-serif;padding:12px 22px;box-shadow:0 4px 0 var(--ad),0 6px 16px -6px rgba(0,0,0,.5)}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--ad)}
+.ib{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.05);display:grid;place-items:center;font-size:17px}
+header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:60;transition:.3s;border-bottom:1px solid transparent}
+header.on{background:rgba(10,12,17,.82);backdrop-filter:blur(14px);border-color:var(--line)}
+.bar{display:flex;align-items:center;gap:18px;height:64px;max-width:1600px;margin:0 auto;padding:0 24px}
+.logo{display:flex;align-items:center;gap:9px;font:800 17px Sora,sans-serif}
+.nav{display:flex;gap:2px;font-weight:700;font-size:13.5px;color:rgba(230,234,242,.65)}.nav a{padding:8px 14px;border-radius:8px}.nav a:hover{color:#fff}
+.sb{flex:1;max-width:600px;margin:0 auto}
+input[type=search]{width:100%;height:42px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:#fff;padding:0 14px;font:500 14px "DM Sans",sans-serif;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+input[type=search]::placeholder{color:rgba(255,255,255,.45)}
+.pill{height:38px;padding:0 12px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);font:700 13px "DM Sans",sans-serif}
+.cnt{background:var(--a);color:#06121A;border-radius:99px;padding:0 7px;margin-left:6px}
+.hero{position:relative;text-align:center;padding:128px 0 48px;overflow:hidden}
+.col{position:absolute;inset:-20px 0 auto;height:560px;display:grid;grid-template-columns:repeat(8,1fr);grid-auto-rows:150px;gap:10px;filter:blur(5px) brightness(.45) saturate(1.3);opacity:.7}
+.col i{border-radius:14px;display:grid;place-items:center;font-size:56px;font-style:normal}
+.col{display:none}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(34,211,238,.2),transparent),linear-gradient(180deg,rgba(10,12,17,.1),rgba(10,12,17,.6) 55%,var(--bg))}
+.hero .w{position:relative;z-index:2}
+.pt{position:absolute;border-radius:50%;background:var(--a);box-shadow:0 0 8px var(--a);z-index:1;animation:fl 8s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-10px);opacity:.9}}
+.badge{display:inline-flex;gap:10px;align-items:center;border-radius:99px;padding:6px 14px;background:var(--s1);border:1px solid rgba(255,255,255,.1);font-size:12.5px;font-weight:500;color:var(--mut)}
+.badge s{text-decoration:none;color:var(--amber);letter-spacing:1px}.badge b{color:#fff}
+h1{font-size:clamp(32px,5.6vw,58px);font-weight:800;line-height:1.06;max-width:12em;margin:20px auto 0}
+.g{background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--mut);font-size:17px;max-width:32em;margin:14px auto 0}
+.hs{max-width:512px;margin:26px auto 0}.hs input{height:48px}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:780px;margin:34px auto 0}
+.tile{padding:18px 10px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.tile .e{font-size:38px;height:56px;display:grid;place-items:center}.tile b{font-size:15px}.tile small{font:600 11px "DM Sans";color:var(--a)}
+.tick{border-block:1px solid var(--line);background:rgba(255,255,255,.02);overflow:hidden;position:relative}
+.tk{display:flex;gap:32px;width:max-content;padding:10px 24px;animation:mq 48s linear infinite}.tk:hover{animation-play-state:paused}
+@keyframes mq{to{transform:translateX(-50%)}}
+.tk div{display:flex;gap:8px;align-items:center;white-space:nowrap;font-size:12.5px;color:rgba(230,234,242,.75);font-weight:500}
+.tk i{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,rgba(34,211,238,.6),rgba(129,140,248,.6))}
+.tk b{color:#fff}.tk em{font-style:normal;color:#67E8F9}.tk u{text-decoration:none;font-size:11px;font-weight:700;padding:2px 6px;border-radius:6px;color:#6EE7B7;background:rgba(16,185,129,.12)}
+.sec{padding:56px 0}
+.sh{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:28px;flex-wrap:wrap}
+.sh i{display:block;width:36px;height:3px;border-radius:3px;margin-bottom:12px;background:var(--bar,var(--a))}
+.sh h2{font-size:clamp(26px,3.6vw,38px);font-weight:800;line-height:1.08}.sh p{color:var(--mut);margin-top:10px;max-width:36em}
+.more{font:700 13px "DM Sans";color:var(--bc,#67E8F9)}
+.car{position:relative}.rail{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:8px 0}.rail::-webkit-scrollbar{display:none}
+.gm{flex:0 0 calc((100% - 72px)/7);min-width:130px;aspect-ratio:3/4;border-radius:16px;position:relative;overflow:hidden;scroll-snap-align:start;display:grid;place-items:center;font-size:58px;border:1px solid var(--line);transition:.3s}
+.gm:hover{transform:translateY(-4px);border-color:rgba(34,211,238,.5)}
+.gm b{position:absolute;inset:auto 0 0;padding:30px 8px 12px;text-align:center;font:700 13px "DM Sans";background:linear-gradient(transparent,rgba(0,0,0,.65))}
+.nx{position:absolute;top:50%;right:-14px;transform:translateY(-50%);background:rgba(10,12,17,.85);backdrop-filter:blur(8px);z-index:3}
+.note{display:inline-flex;gap:10px;align-items:center;padding:8px 12px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.035);font-size:12.5px;color:var(--mut);margin-bottom:18px}.note b{color:#fff}
+.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.bc{padding:20px;position:relative;overflow:hidden}
+.bc h3{font-size:19px}.bc small{display:block;color:var(--mut);font-size:12.5px;margin-top:4px}.bc small b{color:rgba(255,255,255,.8)}
+.mm{grid-column:span 7;min-height:260px}.lm{grid-column:span 5}.rb{grid-column:span 4}.ig{grid-column:span 8}
+.fan{position:absolute;inset:0 0 0 40%;display:grid;place-items:center}
+.fan span{position:absolute;font-size:96px;transition:.35s;filter:drop-shadow(0 12px 16px rgba(0,0,0,.5))}
+.fan span:nth-child(1){transform:translateX(-70px) rotate(-19deg) scale(.78);opacity:.9}.fan span:nth-child(2){z-index:2;transform:rotate(-7deg) scale(1.2)}.fan span:nth-child(3){transform:translateX(70px) rotate(15deg) scale(.78);opacity:.9}
+.mm:hover .fan span:nth-child(1){transform:translateX(-96px) rotate(-23deg) scale(.78)}.mm:hover .fan span:nth-child(3){transform:translateX(96px) rotate(19deg) scale(.78)}
+.mm .t{position:relative;z-index:3;max-width:50%;display:flex;flex-direction:column;height:100%}.mm h3{font-size:26px}
+.lk{margin-top:auto;padding-top:20px;font:700 12.5px "DM Sans";color:#67E8F9}
+.rr{display:flex;align-items:center;gap:10px;padding:9px 12px;margin-top:8px;border-radius:12px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.06);box-shadow:inset 0 1px 2px rgba(0,0,0,.3)}
+.rr b{font-size:15px;flex:1}.rr s{font-size:10px;color:rgba(255,255,255,.5)}.rr span{text-align:right;display:flex;flex-direction:column;line-height:1.2;font-weight:800;font-size:14px}
+.tag{font-size:10px;font-weight:700;padding:2px 6px;border-radius:5px;margin-left:6px;color:#67E8F9;background:rgba(34,211,238,.14);border:1px solid rgba(34,211,238,.3)}.tag.v{color:#10B981;background:rgba(16,185,129,.14);border-color:rgba(16,185,129,.3)}
+input[type=range]{width:100%;accent-color:var(--a);margin:12px 0 0}
+.igr{display:flex;gap:10px;margin-top:14px}.igr div{flex:1;height:150px;border-radius:12px;position:relative;overflow:hidden;display:grid;place-items:center;font-size:44px}
+.igr p{position:absolute;inset:auto 0 0;padding:26px 10px 10px;background:linear-gradient(transparent,rgba(0,0,0,.85));font-size:12px}.igr p small{color:#A5B4FC;font-size:10px;margin:0}.igr p b{display:block;font-size:13px}
+.tabs{display:inline-flex;gap:4px;padding:4px;border-radius:12px;background:rgba(0,0,0,.3);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:24px}
+.tabs button{border:0;background:transparent;padding:7px 16px;border-radius:9px;font:700 13px "DM Sans";color:rgba(255,255,255,.6)}.tabs button[aria-pressed=true]{background:var(--s2);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 2px 5px -1px rgba(0,0,0,.45)}
+.top{display:grid;grid-template-columns:5fr 7fr;gap:20px}
+.big{display:flex;flex-direction:column;background-image:linear-gradient(180deg,rgba(245,158,11,.1),transparent 55%)}
+.big .im{flex:1;min-height:280px;display:grid;place-items:center;font-size:120px;position:relative;background:rgba(0,0,0,.25);box-shadow:inset 0 1px 2px rgba(0,0,0,.3)}
+.rk1{position:absolute;top:16px;left:16px;display:flex;gap:8px;font:800 10px "DM Sans";text-transform:none}
+.mdl{min-width:28px;height:28px;padding:0 6px;border-radius:8px;display:inline-grid;place-items:center;font:800 13px "DM Sans";color:#3A2606;background:linear-gradient(150deg,#FDE68A,#F59E0B);box-shadow:0 2px 0 #B45309}
+.mdl.s{background:linear-gradient(150deg,#F1F5F9,#94A3B8);color:#12151C;box-shadow:0 2px 0 #64748B}.mdl.c{background:linear-gradient(150deg,#FCD0A1,#B45309);box-shadow:0 2px 0 #7C3A0B}.mdl.n{background:rgba(0,0,0,.3);color:rgba(255,255,255,.7);box-shadow:inset 0 0 0 1px var(--line)}
+.top .bd{padding:20px}.bd h3{font-size:24px}.bd .pr{display:flex;justify-content:space-between;align-items:center;margin-top:16px;font:800 22px Sora}
+.lst{display:flex;flex-direction:column;gap:10px}.row{flex:1;display:flex;align-items:center;gap:12px;padding:8px 14px 8px 8px}
+.row .th{width:52px;height:52px;border-radius:10px;display:grid;place-items:center;font-size:26px;background:rgba(0,0,0,.25)}.row div:nth-child(3){flex:1;min-width:0}.row b{display:block;font-size:13px}.row small{font-size:11px;color:var(--mut)}.row strong{font:800 14px Sora}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.08);border:1px solid var(--line);border-radius:16px;overflow:hidden;max-width:680px;margin:0 auto}
+.stats div{background:var(--s1);padding:16px 20px;display:flex;gap:12px;align-items:center}.stats i{width:3px;height:32px;border-radius:3px;background:var(--a)}.stats b{display:block;font:800 24px/1 Sora}.stats small{font-size:11px;color:rgba(255,255,255,.55)}
+.cb{display:grid;grid-template-columns:5fr 7fr;gap:48px;align-items:center}
+.vs{padding:20px;display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center}.vs small{font:600 10.5px "DM Sans";letter-spacing:.14em;color:rgba(255,255,255,.45);text-transform:none}
+.vs b{font:800 28px/1.1 Sora;display:block;margin-top:4px}.vs p{grid-column:1/-1;border-top:1px solid var(--line);padding-top:14px;font-size:12.5px;color:var(--mut)}
+.rks{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.rks .card{padding:14px;text-align:center}.rks .m{font-size:36px}.rks p{font-weight:800;font-size:13px;margin-top:6px}.rks b{display:block;font:800 18px Sora}.rks small{font-size:10px;color:var(--mut)}
+.pro{background-image:linear-gradient(160deg,rgba(34,211,238,.2),transparent 70%)!important;border-color:rgba(34,211,238,.4)!important}
+.pay{padding:24px;min-height:300px}.cc{display:flex;gap:4px;overflow-x:auto;padding:4px;border-radius:12px;background:rgba(0,0,0,.3);margin-bottom:20px;width:max-content;max-width:100%}
+.cc button{border:0;background:transparent;min-height:42px;padding:0 14px;border-radius:9px;font:700 14px "DM Sans";color:rgba(255,255,255,.6);white-space:nowrap}.cc button[aria-pressed=true]{background:var(--s2);color:#fff}
+.fl{display:flex;align-items:center;gap:14px;font:800 28px Sora}.fl span{width:60px;height:60px;border-radius:50%;background:var(--s2);display:grid;place-items:center;font-size:32px;box-shadow:0 0 0 2px rgba(34,211,238,.5)}
+.mt{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:20px}.mt div{display:flex;gap:12px;align-items:center;padding:12px;border-radius:12px;background:var(--s2);border:1px solid var(--line);font-weight:700;font-size:14px}.mt i{width:36px;height:36px;border-radius:9px;background:linear-gradient(140deg,var(--a),var(--b));display:grid;place-items:center;font-style:normal;font-size:16px;color:#06121A}
+.faq{display:grid;grid-template-columns:5fr 7fr;gap:40px}
+details{border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.025);margin-bottom:10px}details[open]{background:rgba(255,255,255,.045);border-color:rgba(34,211,238,.25)}
+summary{padding:14px 16px;font:700 14px "DM Sans";cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px}summary::-webkit-details-marker{display:none}summary::after{content:"⌄";color:var(--a)}
+details p{padding:0 16px 16px;font-size:14px;color:rgba(230,234,242,.75)}
+.sup{padding:22px;margin-top:22px}.sup p{color:var(--mut);font-size:14px;margin:6px 0 16px}
+.cta{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}.cta h2{font-size:clamp(28px,4vw,42px);font-weight:800;line-height:1.06}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.mini .card{padding:16px 8px;text-align:center;font-weight:700;font-size:13px}.mini .e{font-size:38px;display:block}
+footer{border-top:1px solid var(--line);padding:48px 0 120px;color:var(--mut);font-size:14px}.fg{display:grid;grid-template-columns:2fr repeat(4,1fr);gap:28px}footer h4{margin:0 0 10px;font-size:13px;color:rgba(255,255,255,.5)}footer li{list-style:none;padding:4px 0}footer ul{margin:0;padding:0}.fine{margin-top:36px;padding-top:24px;border-top:1px solid var(--line);font-size:12.5px;color:rgba(255,255,255,.5)}
+.chat{position:fixed;right:24px;bottom:calc(24px + env(safe-area-inset-bottom,0px));width:56px;height:56px;border-radius:50%;border:0;background:linear-gradient(135deg,var(--a),var(--b));color:#06121A;font-size:24px;z-index:60;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 12px 28px -10px rgba(0,0,0,.75)}
+.bn{display:none;position:fixed;inset:auto 0 0;z-index:60;background:rgba(10,12,17,.92);backdrop-filter:blur(20px);border-top:1px solid var(--line);padding:8px 8px max(8px,env(safe-area-inset-bottom))}
+.bn a,.bn button{flex:1;border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:3px;font:700 10px "DM Sans";color:rgba(255,255,255,.6);padding:6px 0}.bn span{font-size:20px}.bn .on{color:var(--a)}
+.toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:#E6EAF2;color:#0A0C11;padding:10px 18px;border-radius:10px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:80}.toast.on{opacity:1;transform:translate(-50%,0)}
+@media (max-width:900px){.nav,.sb,.pill,.chat,.nx{display:none}.bar{padding:0 16px}.bar .cartb{margin-left:auto}.bn{display:flex}.hero{padding-top:100px}.col{grid-template-columns:repeat(4,1fr)}.tiles{grid-template-columns:repeat(2,1fr)}.gm{flex-basis:30%}.bento>*{grid-column:1/-1!important}.mm .t{max-width:60%}.top,.cb,.faq,.cta{grid-template-columns:1fr;gap:28px}.rks{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}.fg{grid-template-columns:repeat(2,1fr)}.igr{overflow-x:auto}.igr div{flex:0 0 70%}}
+@media (prefers-reduced-motion:reduce){.tk,.pt{animation:none}*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header id="hd"><div class="bar">
+<button class="ib" aria-label="Menú">☰</button>
+<a class="logo" href="#"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect x="2" y="10" width="26" height="17" rx="4" fill="#22D3EE"/><circle cx="9" cy="6.5" r="3.2" fill="#818CF8"/><circle cx="21" cy="6.5" r="3.2" fill="#818CF8"/></svg>Ladrillo</a>
+<nav class="nav"><a href="#juegos">Juegos</a><a href="#vendemos">Servicios</a><a href="#top">Más vendidos</a><a href="#cashback">Cashback</a></nav>
+<div class="sb"><input type="search" class="q" placeholder="Buscar Robux, limiteds, MM2 e ítems…" aria-label="Buscar"></div>
+<button class="pill" id="cur">🇨🇴 COP</button>
+<button class="pill" id="cart">Carrito<span class="cnt" id="cn">0</span></button>
+</div></header>
+
+<main>
+<div class="hero">
+<div class="col" id="col" aria-hidden="true"></div>
+<div class="ban" aria-hidden="true"></div><div id="pts"></div>
+<div class="w">
+<span class="badge"><s>★★★★★</s><b>4,9</b>9.316 reseñas verificadas</span>
+<h1>Compra Robux e ítems <span class="g">baratos y seguros</span></h1>
+<p class="sub">Robux, armas MM2, Limiteds e ítems in-game al mejor precio de LATAM, con +140.000 pedidos entregados.</p>
+<div class="hs"><input type="search" class="q" placeholder="Buscar Robux, limiteds, MM2 e ítems…" aria-label="Buscar en el catálogo"></div>
+<div class="tiles">
+<a class="card tile" href="#vendemos"><span class="e">🔷</span><b>Robux</b><small id="t1"></small></a>
+<a class="card tile" href="#top" data-f="MM2"><span class="e">🗡️</span><b>Armas MM2</b><small>26 godlys disponibles</small></a>
+<a class="card tile" href="#top" data-f="Limiteds"><span class="e">💎</span><b>Limiteds</b><small id="t3"></small></a>
+<a class="card tile" href="#juegos"><span class="e">🎮</span><b>Ítems in-game</b><small>31 juegos disponibles</small></a>
+</div></div></div>
+
+<div class="tick" aria-hidden="true"><div class="tk" id="tk"></div></div>
+
+<section class="sec" id="juegos" style="padding-bottom:8px"><div class="w">
+<div class="sh" style="--bar:#A78BFA;--bc:#C4B5FD"><div><i></i><h2>Elige tu juego</h2><p>Ítems entregados directo en el juego, pagados en tu moneda local.</p></div><a class="more" href="#top">Ver todos los juegos</a></div>
+<div class="car"><div class="rail" id="rail"></div><button class="ib nx" id="nx" aria-label="Más juegos">›</button></div>
+</div></section>
+
+<section class="sec" id="vendemos"><div class="w">
+<div class="sh" style="--bar:#60A5FA;--bc:#93C5FD"><div><i></i><h2>Todo lo que vendemos</h2><p>Robux, armas MM2, Limiteds e ítems in-game. Una vitrina, cuatro mundos.</p></div><a class="more" href="#top">Ver catálogo completo</a></div>
+<div class="note">🇨🇴<span>Precios en <b>Colombia</b> (COP), con el 30 % de impuesto de Roblox cubierto por Ladrillo.</span></div>
+<div class="bento">
+<a class="card bc mm" href="#top" data-f="MM2"><div class="fan"><span>🗡️</span><span>🔪</span><span>🪓</span></div><div class="t"><h3>Armas MM2</h3><small>186 skins · desde <b id="m1"></b></small><p style="margin-top:8px;color:var(--mut);font-size:13px">Cuchillos y armas raras de Murder Mystery 2, al mejor precio.</p><span class="lk">Explorar MM2</span></div></a>
+<a class="card bc lm" href="#top" data-f="Limiteds"><div style="display:flex;justify-content:space-between"><div><h3>Limiteds</h3><small>8 coleccionables · desde <b id="l1"></b></small></div><span class="ib">💎</span></div></a>
+<div class="card bc rb"><h3>Robux</h3><small>Compra protegida · desde <b id="r1"></b>/1.000</small>
+<input type="range" id="sl" min="400" max="20000" step="100" value="5000" aria-label="Cantidad de Robux">
+<div class="rr"><span class="ib" style="width:32px;height:32px;font-size:15px">🔷</span><b id="rq">5.000</b><span id="rp"></span></div>
+<div class="rr"><b>1.000<em class="tag" style="font-style:normal">Popular</em></b><span id="p1"></span></div>
+<div class="rr"><b>20.000<em class="tag v" style="font-style:normal">Mejor valor</em></b><span id="p2"></span></div>
+<button class="btn" id="buyR" style="width:100%;margin-top:14px">Comprar Robux</button></div>
+<a class="card bc ig" href="#juegos"><div style="display:flex;justify-content:space-between"><div><h3>Ítems in-game</h3><small>31 juegos · desde <b id="i1"></b></small></div><span class="ib">🎮</span></div><div class="igr" id="igr"></div></a>
+</div></div></section>
+
+<section class="sec" id="top" style="padding-top:8px"><div class="w">
+<div class="sh" style="--bar:#FBBF24;--bc:#FCD34D"><div><i></i><h2>Lo que más se compra</h2><p>El ranking real de los últimos 7 días, contado pedido por pedido.</p></div><a class="more" href="#top">Ver catálogo</a></div>
+<div class="tabs" id="tabs" role="group" aria-label="Filtrar ranking"></div>
+<div class="top" id="topg"></div>
+</div></section>
+
+<section class="sec" style="padding-top:8px"><div class="w">
+<h2 style="text-align:center;font-size:clamp(24px,3.4vw,36px);font-weight:800;margin-bottom:24px">Miles <span style="color:#60A5FA">confían</span> en nosotros</h2>
+<div class="stats"><div><i></i><span><b>4,9 ★</b><small>9.316 reseñas</small></span></div><div><i></i><span><b>+140.000</b><small>Pedidos entregados</small></span></div><div><i></i><span><b>2024</b><small>Operando desde</small></span></div><div><i></i><span><b>+15</b><small>Métodos de pago</small></span></div></div>
+</div></section>
+
+<section class="sec" id="cashback"><div class="w"><div class="cb">
+<div><div class="sh" style="--bar:#34D399;margin-bottom:24px"><div><i></i><h2>Cada compra te <span style="color:#34D399">devuelve dinero</span></h2><p>Comprar suma XP. Subes de rango y recibes hasta el 3 % de cada pedido como saldo, automático y sin códigos.</p></div></div>
+<div class="card vs"><div><small>Gastas</small><b>$320.000</b></div><span style="color:rgba(255,255,255,.3);font-size:22px">→</span><div style="text-align:right"><small style="color:#34D399">Vuelve a tu saldo</small><b style="color:#34D399;font-size:32px">+$9.600</b></div><p>Automático en cada pedido, sin códigos. Hasta 3 % según tu rango, y tu saldo sirve en cualquier compra.</p></div></div>
+<div class="rks" id="rks"></div>
+</div></div></section>
+
+<section class="sec" id="pagos" style="padding-top:8px"><div class="w">
+<div class="sh" style="--bar:#2DD4BF;text-align:center;justify-content:center"><div><i style="margin:0 auto 12px"></i><h2>Paga como pagas siempre</h2><p style="margin:10px auto 0">Métodos locales de cada país de LATAM, sin tarjeta internacional ni vueltas raras.</p></div></div>
+<div style="display:flex;justify-content:center"><div class="cc" id="cc" role="tablist" aria-label="Elige tu país"></div></div>
+<div class="card pay" id="pm"></div>
+</div></section>
+
+<section class="sec" id="faq" style="padding-top:8px"><div class="w"><div class="faq">
+<div><h2 style="font-size:clamp(26px,3.4vw,38px);font-weight:800">Preguntas <span class="g">frecuentes</span></h2><p style="color:var(--mut);margin-top:12px">¿Más dudas? Escríbenos y te respondemos al instante, todos los días.</p>
+<div class="card sup"><h3 style="font-size:16px">¿Te quedaste con dudas?</h3><p>El soporte humano responde en minutos, todos los días.</p><button class="btn">Hablar con soporte</button></div></div>
+<div id="fq"></div></div></div></section>
+
+<section class="sec" style="padding-top:8px"><div class="w"><div class="cta">
+<div><h2>Tu primer pedido puede <span class="g">llegar hoy mismo</span></h2><p style="color:var(--mut);margin:14px 0 22px;max-width:30em">Robux, MM2, Limiteds e ítems in-game al mejor precio de LATAM, con compra 100 % protegida y soporte todos los días.</p><a class="btn" href="#top">Comprar ahora</a></div>
+<div class="mini"><a class="card" href="#vendemos"><span class="e">🔷</span>Robux</a><a class="card" href="#top" data-f="MM2"><span class="e">🗡️</span>Armas MM2</a><a class="card" href="#top" data-f="Limiteds"><span class="e">💎</span>Limiteds</a></div>
+</div></div></section>
+</main>
+
+<footer><div class="w"><div class="fg">
+<div><a class="logo" href="#">🧱 Ladrillo</a><p style="margin-top:12px;max-width:20em">Compra productos de Roblox de forma segura, rápida y económica.</p></div>
+<div><h4>Tienda</h4><ul><li>Catálogo</li><li>Robux</li><li>Grupos</li><li>Ladrillo Plus</li></ul></div>
+<div><h4>Cuenta</h4><ul><li>Mi perfil</li><li>Mis pedidos</li></ul></div>
+<div><h4>Soporte</h4><ul><li>Ayuda</li><li>Reseñas</li><li>Discord</li><li>Email</li></ul></div>
+<div><h4>Programas</h4><ul><li>Referidos</li><li>Partners</li></ul></div>
+</div><p class="fine">© 2026 Ladrillo · Términos · Privacidad<br>Servicio independiente. No estamos afiliados, asociados ni respaldados por Roblox Corporation. Todas las marcas pertenecen a sus respectivos propietarios.</p></div></footer>
+
+<button class="chat" aria-label="Abrir chat de soporte">💬</button>
+<nav class="bn" aria-label="Navegación"><a class="on" href="#"><span>🏠</span>Inicio</a><a href="#top"><span>🧾</span>Pedidos</a><a href="#vendemos"><span>🛒</span>Catálogo</a><button><span>💬</span>Mensajes</button><a href="#faq"><span>👤</span>Mi cuenta</a></nav>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+var $=function(i){return document.getElementById(i)},cur="COP",cart=0,tab="Todos",q="",RATE=3300;
+function money(u){return cur==="COP"?new Intl.NumberFormat("es-CO",{style:"currency",currency:"COP",maximumFractionDigits:0}).format(u*RATE):new Intl.NumberFormat("en-US",{style:"currency",currency:"USD"}).format(u)}
+function toast(t){var e=$("toast");e.textContent=t;e.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(function(){e.classList.remove("on")},1800)}
+function add(n){cart++;$("cn").textContent=cart;toast(n+" agregado al carrito")}
+var G=[["Jujutsu Shenanigans","👊","#7f1d1d,#1e1b4b"],["Blox Fruits","🍎","#1d4ed8,#7c3aed"],["Dress To Impress","👗","#db2777,#f9a8d4"],["Rivals","🎯","#0e7490,#1e293b"],["Murder Mystery 2","🗡️","#b91c1c,#111827"],["Criminality","🔫","#374151,#0f172a"],["Pet Simulator 99","🐾","#ea580c,#7c2d12"],["Fisch","🐟","#0369a1,#064e3b"],["Evade","🏃","#4d7c0f,#1e1b4b"],["Jailbreak","🚓","#1e3a8a,#be123c"]];
+var P=[{n:"Icewing",c:"MM2",g:"Murder Mystery 2",p:.9,t:"18 vendidos esta semana",e:"🗡️",bg:"#b91c1c,#4c0519"},{n:"+1 Fruit Storage",c:"In-game",g:"Blox Fruits",p:3.4,t:"16 vendidos",e:"🍎",bg:"#1d4ed8,#312e81"},{n:"Eternal IV",c:"MM2",g:"Godly",p:.5,t:"Quedan 3",e:"🗡️",bg:"#7c3aed,#1e1b4b"},{n:"Eternal III",c:"MM2",g:"Godly",p:.39,t:"10 vendidos",e:"🔪",bg:"#9f1239,#1e1b4b"},{n:"Eternalcane",c:"MM2",g:"Godly",p:.6,t:"Queda 1",e:"🦯",bg:"#ca8a04,#422006"},{n:"Orange Seer",c:"MM2",g:"Godly",p:.28,t:"7 vendidos",e:"🪓",bg:"#ea580c,#431407"},{n:"10 Random Emotes",c:"In-game",g:"Jujutsu Shenanigans",p:2.13,t:"7 vendidos",e:"🎭",bg:"#9f1239,#1e1b4b"},{n:"Limited de muestra",c:"Limiteds",g:"Roblox",p:35,t:"Desde $35",e:"💎",bg:"#0891b2,#4c1d95"}];
+function calc(){var r=+$("sl").value,rt=r>=5000?.008:.0085;$("rq").textContent=r.toLocaleString("es-CO");$("rp").textContent=money(r*rt);$("p1").innerHTML=money(8.5);$("p2").innerHTML=money(160);$("t1").textContent="1.000 desde "+money(8.5);$("t3").textContent="desde "+money(35);$("m1").textContent=money(.08);$("l1").textContent=money(35);$("r1").textContent=money(8.5);$("i1").textContent=money(.09);draw()}
+function draw(){
+$("tabs").innerHTML=["Todos","MM2","Limiteds","In-game"].map(function(f){return '<button aria-pressed="'+(f===tab)+'" data-t="'+f+'">'+f+'</button>'}).join("");
+$("tabs").querySelectorAll("button").forEach(function(b){b.onclick=function(){tab=b.dataset.t;draw()}});
+var s=q.toLowerCase(),L=P.filter(function(x){return(tab==="Todos"||x.c===tab)&&(!s||(x.n+x.g+x.c).toLowerCase().indexOf(s)>-1)});
+if(!L.length){$("topg").innerHTML='<p style="color:var(--mut)">No encontramos nada con esa búsqueda. Prueba otro nombre o cambia de pestaña.</p>';return}
+var f=L[0],med=["","s","c"];
+$("topg").innerHTML='<div class="card big"><div class="im" style="background-image:linear-gradient(160deg,'+f.bg+')">'+f.e+'<div class="rk1"><span class="mdl">1</span><span class="mdl" style="background:linear-gradient(180deg,#FDE047,#F59E0B);height:28px">Más vendido</span></div></div><div class="bd"><span class="tag">'+f.g+'</span><h3 style="margin-top:8px">'+f.n+'</h3><small style="color:var(--mut)">'+f.t+'</small><div class="pr"><span>'+money(f.p)+'</span><button class="btn" data-i="0">Comprar</button></div></div></div><div class="lst">'+L.slice(1,7).map(function(x,i){return '<div class="card row lift"><span class="mdl '+(med[i+1]||"n")+'">'+(i+2)+'</span><span class="th" style="background:linear-gradient(160deg,'+x.bg+')">'+x.e+'</span><div><b>'+x.n+'</b><small>'+x.g+' · '+x.t+'</small></div><strong>'+money(x.p)+'</strong></div>'}).join("")+'</div>';
+$("topg").querySelector("[data-i]").onclick=function(){add(f.n)}}
+document.querySelectorAll(".q").forEach(function(i){i.oninput=function(){q=i.value;document.querySelectorAll(".q").forEach(function(o){o.value=q});draw()};i.onkeydown=function(e){if(e.key==="Enter")$("top").scrollIntoView()}});
+document.querySelectorAll("[data-f]").forEach(function(a){a.onclick=function(){tab=a.dataset.f;draw()}});
+$("sl").oninput=calc;$("buyR").onclick=function(){add("Robux")};
+$("cur").onclick=function(){cur=cur==="COP"?"USD":"COP";$("cur").textContent=(cur==="COP"?"🇨🇴 ":"🇺🇸 ")+cur;calc()};
+$("rail").innerHTML=G.map(function(g){return '<a class="gm" href="#top" style="background:linear-gradient(160deg,'+g[2]+')">'+g[1]+'<b>'+g[0]+'</b></a>'}).join("");
+$("nx").onclick=function(){$("rail").scrollBy({left:420,behavior:"smooth"})};
+$("igr").innerHTML=G.slice(1,5).map(function(g,i){return '<div style="background:linear-gradient(160deg,'+g[2]+')">'+g[1]+'<p><small>'+g[0]+'</small><b>'+["30 Random Emotes","Duskwing bundle","Prop Bundle","2x Mastery"][i]+'</b></p></div>'}).join("");
+$("col").innerHTML=G.concat(G,G).slice(0,32).map(function(g){return '<i style="background:linear-gradient(160deg,'+g[2]+')">'+g[1]+'</i>'}).join("");
+$("pts").innerHTML=[10,25,45,70,85,15,55,35,80,5,60,92].map(function(x,i){return '<span class="pt" style="left:'+x+'%;top:'+(12+i*6)+'%;width:'+(2+i%3)+'px;height:'+(2+i%3)+'px;animation-delay:'+(i%5)+'s;opacity:.4"></span>'}).join("");
+var T=[["Go******","Duskwing bundle","hace 5 min"],["Ow****","Robux","hace 13 min"],["an******","2x Mastery","hace 1 h"],["ch*****","Robux","hace 27 min"],["Lo******","Bat bundle","hace 1 h"],["Xx******","Robux","hace 29 min"],["Ee*****","Spooky skin case 3x","hace 2 h"],["ne******","Robux","hace 43 min"]].map(function(t){return '<div><i></i><span><b>'+t[0]+'</b> compró <em>'+t[1]+'</em></span><u>'+t[2]+'</u></div>'}).join("");
+$("tk").innerHTML=T+T;
+$("rks").innerHTML=[["🥉","Bronce","1 %","Desde el inicio"],["🥈","Plata","1,5 %","Desde $32.000"],["🥇","Oro","2 %","Desde $96.000"],["🏆","Platino","2,5 %","Desde $210.000"],["💠","Diamante","3 %","Desde $390.000"]].map(function(r){return '<div class="card lift"><span class="m">'+r[0]+'</span><p>'+r[1]+'</p><b>'+r[2]+'</b><small>'+r[3]+'</small></div>'}).join("")+'<div class="card pro lift"><span class="m">⭐</span><p>Ladrillo Plus</p><b>5 %</b><small>Cashback fijo, sin importar tu rango</small></div>';
+var PAY={Colombia:["🇨🇴",["Nequi","Bre-B","Bancolombia","PSE","Tarjeta"]],México:["🇲🇽",["OXXO","SPEI","Mercado Pago","Tarjeta"]],Argentina:["🇦🇷",["Mercado Pago","Transferencia","Tarjeta"]],Perú:["🇵🇪",["Yape","Transferencia","Tarjeta"]],Brasil:["🇧🇷",["Pix","Transferencia","Tarjeta"]],"Todo el mundo":["🌎",["PayPal","Cash App","Cripto","Binance Pay","Apple Pay","Google Pay"]]},pc="Colombia";
+function pay(){$("cc").innerHTML=Object.keys(PAY).map(function(k){return '<button role="tab" aria-pressed="'+(k===pc)+'" data-c="'+k+'">'+PAY[k][0]+" "+k+'</button>'}).join("");
+$("cc").querySelectorAll("button").forEach(function(b){b.onclick=function(){pc=b.dataset.c;pay()}});
+$("pm").innerHTML='<div class="fl"><span>'+PAY[pc][0]+'</span>'+pc+'</div><div class="mt">'+PAY[pc][1].map(function(m){return '<div><i>'+m.charAt(0)+'</i>'+m+'</div>'}).join("")+'</div><p style="text-align:center;margin-top:24px;color:var(--mut);font-size:14px">Pagos procesados con proveedores verificados. Nunca pedimos tu contraseña de Roblox.</p>'}
+$("fq").innerHTML=[["¿Cuáles son los métodos de entrega?","Con Gamepass creas un pase en tu juego, nosotros cubrimos el 30 % de impuesto y tus Robux llegan a transacciones pendientes en 5 días. Con Grupo te unes a uno de nuestros grupos y la espera estándar es de 14 días."],["¿Cuánto tarda la entrega de Robux?","Normalmente entre 15 minutos y 24 horas. En casos excepcionales puede llegar a 48 horas y siempre te avisamos en la página."],["¿Necesitan mi contraseña?","Nunca. Solo necesitamos tu nombre de usuario de Roblox para entregarte los Robux."],["¿Qué métodos de pago aceptan?","Pagos locales en Colombia, México, Argentina, Perú y Brasil. Desde otros países, con cripto o tarjeta."],["¿Cómo funciona el cashback y el saldo?","Cada compra suma cashback según tu rango y se acumula como saldo. Lo usas para pagar total o parcialmente tus próximas compras al instante."]].map(function(f,i){return '<details'+(i?'':' open')+'><summary>'+f[0]+'</summary><p>'+f[1]+'</p></details>'}).join("");
+window.addEventListener("scroll",function(){$("hd").classList.toggle("on",scrollY>40)});
+calc();pay();
+</script>
+</body>
+</html>
