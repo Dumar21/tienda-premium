@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, Sora } from "next/font/google";
 import "./globals.css";
+import "flag-icons/css/flag-icons.min.css";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
