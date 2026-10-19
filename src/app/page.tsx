@@ -8,7 +8,6 @@ import Thumb from "@/components/Thumb";
 import Flag from "@/components/Flag";
 import GameRail from "@/components/GameRail";
 import PaySection from "@/components/PaySection";
-import FlagStrip from "@/components/FlagStrip";
 
 const FAQ_ITEMS = [
   ["¿Cuáles son los métodos de entrega?", "Con Gamepass creas un pase en tu juego, nosotros cubrimos el 30 % de impuesto y tus Robux llegan a transacciones pendientes en 5 días. Con Grupo te unes a uno de nuestros grupos y la espera estándar es de 14 días."],
@@ -803,7 +802,6 @@ export default function Home() {
         </section>
 
         <PaySection />
-        <FlagStrip />
 
         <section className="lx-sec" id="faq">
           <div className="lx-w">
