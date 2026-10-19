@@ -1,8 +1,8 @@
-# ¿Qué es RbxLatamStore?
+# ¿Qué es Pixel Store?
 
-**RbxLatamStore** es una tienda en línea de productos de Roblox: Robux (la moneda del juego), armas "Godly" de *Murder Mystery 2*, ítems in-game y coleccionables *Limited*. La página se construyó como un proyecto escolar con la idea de demostrar cómo se haría una tienda real, con catálogo, filtros, busquedas, métodos de pago por país, carrito de compras y una capa de confianza (reseñas, pedidos entregados, FAQs).
+**Pixel Store** es una tienda en línea de productos de Roblox: Robux (la moneda del juego), armas "Godly" de *Murder Mystery 2*, ítems in-game y coleccionables *Limited*. La página se construyó como un proyecto escolar con la idea de demostrar cómo se haría una tienda real, con catálogo, filtros, busquedas, métodos de pago por país, carrito de compras y una capa de confianza (reseñas, pedidos entregados, FAQs).
 
-El nombre técnico del repositorio es `tienda-premium` y el nombre de marca que muestra la página es **RbxLatamStore**.
+El nombre técnico del repositorio es `tienda-premium` y el título que muestra la página es **"Ladrillo: Robux e ítems de Roblox"**. El branding visual habla de "Pixel Store" (logo en `/img/logo-4x.png`), un nombre que jugaba al principio de "píxeles" y tienda.
 
 ## La idea de negocio
 

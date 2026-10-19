@@ -58,13 +58,13 @@ function Ico({ children }: { children: React.ReactNode }) {
 
 function Brand() {
   return (
-    <a className="lx-logo" href="#" aria-label="RbxLatamStore">
+    <a className="lx-logo" href="#" aria-label="Rbx Latam Store">
       <span className="lx-lt">
         <span className="lx-ri">
           <Thumb src={ROBUX_IMG} fallback="🔷" alt="" size={28} />
         </span>
         <b>
-          <em>RbxLatam</em>Store
+          <em>Latam</em> Store
         </b>
       </span>
     </a>
@@ -715,7 +715,7 @@ export default function Home() {
               <div className="lx-note">
                 <Flag code="co" size={20} />
                 <span>
-                  Precios en <b>Colombia</b> (COP), con el 30 % de impuesto de Roblox cubierto por RbxLatamStore.
+                  Precios en <b>Colombia</b> (COP), con el 30 % de impuesto de Roblox cubierto por Rbx Latam Store.
                 </span>
               </div>
               <div className="lx-bento">
@@ -878,7 +878,7 @@ export default function Home() {
             </div>
           </div>
           <p className="lx-fine">
-            © 2026 RbxLatamStore · Términos · Privacidad
+            © 2026 Rbx Latam Store · Términos · Privacidad
             <br />
             Servicio independiente. No estamos afiliados, asociados ni respaldados por Roblox Corporation. Todas las marcas pertenecen a sus respectivos propietarios.
           </p>

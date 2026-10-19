@@ -1,6 +1,6 @@
-# Documentación del proyecto — RbxLatamStore
+# Documentación del proyecto — Pixel Store
 
-Bienvenidx a la documentación de **RbxLatamStore**, la tienda en línea de Robux e ítems de Roblox que desarrollé como proyecto escolar.
+Bienvenidx a la documentación de **Pixel Store**, la tienda en línea de Robux e ítems de Roblox que desarrollé como proyecto escolar.
 
 Aquí encontrarás una explicación completa del proyecto, tanto desde el punto de vista técnico como desde la idea de negocio que quería transmitir. He intentado que se lea como una carta dirigida a tu instructor: con voz propia, con los detalles que importan y sin rodeos técnicos innecesarios.
 
