@@ -16,7 +16,7 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
-  title: "Ladrillo: Robux e ítems de Roblox",
+  title: "Rbx Latam Store: Robux e ítems de Roblox",
   description: "Robux, armas MM2, Limiteds e ítems in-game al mejor precio de LATAM, con +140.000 pedidos entregados.",
 };
 
@@ -27,7 +27,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className={`${dmSans.variable} ${sora.variable} dark h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-[#0A0C11] text-[#E6EAF2]">
+      <body className="min-h-full flex flex-col bg-[#050914] text-[#E6EAF2]">
         {children}
       </body>
     </html>

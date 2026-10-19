@@ -1,6 +1,6 @@
 "use client";
 
-import "./ladrillo.css";
+import "./glass.css";
 import React, { useState, useEffect, useRef } from "react";
 import { G, P, ROBUX_IMG } from "@/lib/catalog";
 import { useGameIcons } from "@/lib/useGameIcons";
@@ -8,13 +8,13 @@ import Thumb from "@/components/Thumb";
 import Flag from "@/components/Flag";
 import GameRail from "@/components/GameRail";
 import PaySection from "@/components/PaySection";
+import FlagStrip from "@/components/FlagStrip";
 
 const FAQ_ITEMS = [
   ["¿Cuáles son los métodos de entrega?", "Con Gamepass creas un pase en tu juego, nosotros cubrimos el 30 % de impuesto y tus Robux llegan a transacciones pendientes en 5 días. Con Grupo te unes a uno de nuestros grupos y la espera estándar es de 14 días."],
   ["¿Cuánto tarda la entrega de Robux?", "Normalmente entre 15 minutos y 24 horas. En casos excepcionales puede llegar a 48 horas y siempre te avisamos en la página."],
   ["¿Necesitan mi contraseña?", "Nunca. Solo necesitamos tu nombre de usuario de Roblox para entregarte los Robux."],
   ["¿Qué métodos de pago aceptan?", "Pagos locales en Colombia, México, Argentina, Perú y Brasil. Desde otros países, con cripto o tarjeta."],
-  ["¿Cómo funciona el cashback y el saldo?", "Cada compra suma cashback según tu rango y se acumula como saldo. Lo usas para pagar total o parcialmente tus próximas compras al instante."],
 ];
 
 const TICKER = [
@@ -28,17 +28,26 @@ const TICKER = [
   ["ne******", "Robux", "hace 43 min"],
 ];
 
-// productos con imagen que se muestran rotando en las tarjetas
+const STEPS = [
+  ["1", "Elige", "Escoge Robux, un arma de MM2, un Limited o el ítem de tu juego."],
+  ["2", "Paga", "Con tu moneda local en Colombia, México, Argentina, Perú y Brasil, o con cripto y tarjeta desde otros países."],
+  ["3", "Recibe", "La entrega llega normalmente entre 15 minutos y 24 horas. Nunca te pedimos la contraseña, solo tu usuario."],
+];
+
+const LATAM = [
+  ["co", "Colombia"],
+  ["mx", "México"],
+  ["ar", "Argentina"],
+  ["pe", "Perú"],
+  ["br", "Brasil"],
+];
+
+const QUICK = [1000, 5000, 10000, 20000];
+const R_MIN = 400;
+const R_MAX = 20000;
+
 const MM2_ITEMS = P.filter((x) => x.c === "MM2" && x.img);
 const GAME_ITEMS = P.filter((x) => x.c === "In-game" && x.img);
-
-const RANKS = [
-  ["🥉", "Bronce", "1 %", "Desde el inicio"],
-  ["🥈", "Plata", "1,5 %", "Desde $32.000"],
-  ["🥇", "Oro", "2 %", "Desde $96.000"],
-  ["🏆", "Platino", "2,5 %", "Desde $210.000"],
-  ["💠", "Diamante", "3 %", "Desde $390.000"],
-];
 
 function Ico({ children }: { children: React.ReactNode }) {
   return (
@@ -48,7 +57,20 @@ function Ico({ children }: { children: React.ReactNode }) {
   );
 }
 
-/* ---------- utilidades de animación ---------- */
+function Brand() {
+  return (
+    <a className="lx-logo" href="#" aria-label="Rbx Latam Store">
+      <span className="lx-lt">
+        <span className="lx-ri">
+          <Thumb src={ROBUX_IMG} fallback="🔷" alt="" size={28} />
+        </span>
+        <b>
+          <em>Latam</em> Store
+        </b>
+      </span>
+    </a>
+  );
+}
 
 function useIn<T extends HTMLElement>() {
   const ref = useRef<T>(null);
@@ -119,10 +141,13 @@ function CountUp({ to, dec = 0, pre = "", suf = "" }: { to: number; dec?: number
   );
 }
 
-function SecHead({ title, accent, text, link, href = "#top" }: { title: string; accent: string; text: string; link?: string; href?: string }) {
+function SecHead({ tag, title, accent, text, link, href = "#top" }: { tag: string; title: string; accent: string; text: string; link?: string; href?: string }) {
   return (
     <div className="lx-sh">
       <div>
+        <Reveal>
+          <span className="lx-eb">{tag}</span>
+        </Reveal>
         <h2>
           <Split text={title} /> <Split text={accent} grad start={title.split(" ").length} />
         </h2>
@@ -138,8 +163,6 @@ function SecHead({ title, accent, text, link, href = "#top" }: { title: string; 
     </div>
   );
 }
-
-/* ---------- partículas (canvas, pausa si la pestaña no se ve) ---------- */
 
 function ParticleField() {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -240,8 +263,6 @@ function ParticleField() {
   return <canvas ref={ref} className="lx-canvas" aria-hidden="true" />;
 }
 
-/* ---------- dos ítems que se van cambiando ---------- */
-
 type SwapItem = { n: string; e: string; img?: string };
 
 function ItemSwap({ items, size = 48, delay = 0 }: { items: SwapItem[]; size?: number; delay?: number }) {
@@ -256,7 +277,7 @@ function ItemSwap({ items, size = 48, delay = 0 }: { items: SwapItem[]; size?: n
       iv = setInterval(() => {
         t++;
         setPos(([a, b]) => {
-          if (n === 2) return [b, a]; // con 2 ítems se intercambian
+          if (n === 2) return [b, a];
           if (t % 2) {
             let x = (a + 1) % n;
             if (x === b) x = (x + 1) % n;
@@ -298,8 +319,6 @@ function ItemSwap({ items, size = 48, delay = 0 }: { items: SwapItem[]; size?: n
   );
 }
 
-/* ---------- abanico de 3 ítems para la tarjeta grande de MM2 ---------- */
-
 function ItemFan({ items, size = 96 }: { items: SwapItem[]; size?: number }) {
   const n = items.length;
   const k = Math.min(3, n);
@@ -335,8 +354,6 @@ function ItemFan({ items, size = 96 }: { items: SwapItem[]; size?: number }) {
   );
 }
 
-/* ---------- página ---------- */
-
 export default function Home() {
   const icons = useGameIcons();
   const [cur, setCur] = useState("COP");
@@ -351,10 +368,11 @@ export default function Home() {
   const [active, setActive] = useState("");
   const islandRef = useRef<HTMLDivElement>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const buyRef = useRef<HTMLDivElement>(null);
+  const [buyOff, setBuyOff] = useState({ x: 0, y: 0, w: 0 });
 
   const RATE = 3300;
 
-  // barra: se encoge al bajar y muestra el progreso de lectura
   useEffect(() => {
     let raf = 0;
     const update = () => {
@@ -376,9 +394,8 @@ export default function Home() {
     };
   }, []);
 
-  // marca la sección en la que estás (menú de arriba y barra de abajo)
   useEffect(() => {
-    const els = ["juegos", "vendemos", "top", "cashback"]
+    const els = ["juegos", "vendemos", "top"]
       .map((id) => document.getElementById(id))
       .filter(Boolean) as HTMLElement[];
     const io = new IntersectionObserver(
@@ -389,7 +406,6 @@ export default function Home() {
     return () => io.disconnect();
   }, []);
 
-  // brillo que sigue al mouse en las tarjetas (un solo listener para todas)
   useEffect(() => {
     let raf = 0;
     const onMove = (e: PointerEvent) => {
@@ -405,6 +421,24 @@ export default function Home() {
     };
     document.addEventListener("pointermove", onMove, { passive: true });
     return () => document.removeEventListener("pointermove", onMove);
+  }, []);
+
+  useEffect(() => {
+    const calc = () => {
+      const el = buyRef.current;
+      const hero = el?.closest(".lx-hero") as HTMLElement | null;
+      if (!el || !hero) return;
+      const a = el.getBoundingClientRect();
+      const b = hero.getBoundingClientRect();
+      setBuyOff({ x: a.left - b.left + 1, y: a.top - b.top + 1, w: hero.offsetWidth });
+    };
+    calc();
+    const t = setTimeout(calc, 1300);
+    window.addEventListener("resize", calc);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("resize", calc);
+    };
   }, []);
 
   const triggerToast = (msg: string) => {
@@ -432,9 +466,9 @@ export default function Home() {
     return matchesTab && matchesSearch;
   });
 
-  const featuredProduct = filteredProducts[0];
-  const listProducts = filteredProducts.slice(1, 7);
+  const rankProducts = filteredProducts.slice(0, 8);
   const robuxRate = robuxQty >= 5000 ? 0.008 : 0.0085;
+  const robuxPct = ((robuxQty - R_MIN) / (R_MAX - R_MIN)) * 100;
 
   return (
     <div className="lx-root">
@@ -445,18 +479,13 @@ export default function Home() {
       </div>
       <ParticleField />
 
-      {/* BARRA SUPERIOR FLOTANTE (3 piezas separadas) */}
       <div ref={islandRef} className={`lx-island ${headerScrolled ? "on" : ""}`}>
-        {/* 1. principal */}
         <div className="lx-bar">
-          <a className="lx-logo" href="#">
-            <img className="lx-logoimg" src="/img/logo-4x.png" alt="Pixel Store" />
-          </a>
+          <Brand />
           <nav className="lx-nav">
             <a href="#juegos" className={active === "juegos" ? "on" : ""}>Juegos</a>
             <a href="#vendemos" className={active === "vendemos" ? "on" : ""}>Servicios</a>
             <a href="#top" className={active === "top" ? "on" : ""}>Más vendidos</a>
-            <a href="#cashback" className={active === "cashback" ? "on" : ""}>Cashback</a>
           </nav>
           <label className={`lx-find ${q ? "has" : ""}`}>
             <span>🔍</span>
@@ -482,7 +511,6 @@ export default function Home() {
           </button>
         </div>
 
-        {/* 2. moneda e idioma */}
         <div className="lx-bar sm lx-cur">
           <button className="lx-pill" onClick={() => setCur((p) => (p === "COP" ? "USD" : "COP"))} aria-label="Cambiar moneda">
             <Flag code={cur === "COP" ? "co" : "us"} size={18} />
@@ -494,7 +522,6 @@ export default function Home() {
           </button>
         </div>
 
-        {/* 3. notificaciones y perfil (por ahora no hacen nada) */}
         <div className="lx-bar sm lx-usr">
           <button className="lx-ic" aria-label="Notificaciones">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -513,65 +540,136 @@ export default function Home() {
       </div>
 
       <main>
-        {/* HERO */}
-        <div className="lx-hero">
+        <section className="lx-hero">
           <div className="lx-ban" aria-hidden="true" />
-          <img className="lx-orb" src="/img/ROBUX_IMG.png" alt="" aria-hidden="true" />
-          <img className="lx-orb" src="/img/ROBUX_IMG.png" alt="" aria-hidden="true" />
-          <img className="lx-orb" src="/img/ROBUX_IMG.png" alt="" aria-hidden="true" />
-          <div className="lx-w">
-            <Reveal>
-              <span className="lx-badge">
-                <s>★★★★★</s>
-                <b>4,9</b>9.316 reseñas verificadas
-              </span>
-            </Reveal>
-            <h1>
-              <Split text="Compra Robux e ítems" /> <Split text="baratos y seguros" grad start={4} />
-            </h1>
-            <Reveal delay={500}>
-              <p className="lx-sub">
-                Robux, armas MM2, Limiteds e ítems in-game al mejor precio de LATAM, con +140.000 pedidos entregados.
-              </p>
-            </Reveal>
-            <Reveal delay={650} className="lx-hs">
-              <input
-                type="text"
-                placeholder="Buscar Robux, limiteds, MM2 e ítems…"
-                aria-label="Buscar en el catálogo"
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-              />
-            </Reveal>
-            <Reveal delay={800}>
-              <div className="lx-tiles">
-                <a className="lx-card spot lx-tile" href="#vendemos">
-                  <Thumb src={ROBUX_IMG} fallback="🔷" alt="Robux" size={55} />
-                  <b>Robux</b>
-                  <small>1.000 desde {money(8.5)}</small>
-                </a>
-                <a className="lx-card spot lx-tile" href="#top" onClick={() => setTab("MM2")}>
-                  <ItemSwap items={MM2_ITEMS} size={52} />
-                  <b>Armas MM2</b>
-                  <small>26 godlys disponibles</small>
-                </a>
-                <a className="lx-card spot lx-tile" href="#top" onClick={() => setTab("Limiteds")}>
-                  <span className="lx-e">💎</span>
-                  <b>Limiteds</b>
-                  <small>desde {money(35)}</small>
-                </a>
-                <a className="lx-card spot lx-tile" href="#juegos">
-                  <ItemSwap items={GAME_ITEMS} size={52} delay={1300} />
-                  <b>Ítems in-game</b>
-                  <small>31 juegos disponibles</small>
-                </a>
+          <div className="lx-w lx-hg">
+            <div className="lx-hl">
+              <Reveal>
+                <span className="lx-badge">
+                  <s>★★★★★</s>
+                  <b>4,9</b>9.316 reseñas verificadas
+                </span>
+              </Reveal>
+              <h1>
+                <Split text="Compra Robux e ítems" /> <Split text="baratos y seguros" grad start={4} />
+              </h1>
+              <Reveal delay={500}>
+                <p className="lx-sub">
+                  Robux, armas MM2, Limiteds e ítems in-game al mejor precio de LATAM, con +140.000 pedidos entregados.
+                </p>
+              </Reveal>
+              <Reveal delay={650}>
+                <div className="lx-chips">
+                  <a className="lx-chip spot" href="#comprar">
+                    <Thumb src={ROBUX_IMG} fallback="🔷" alt="Robux" size={30} />
+                    <span>
+                      <b>Robux</b>
+                      <small>1.000 desde {money(8.5)}</small>
+                    </span>
+                  </a>
+                  <a className="lx-chip spot" href="#top" onClick={() => setTab("MM2")}>
+                    <ItemSwap items={MM2_ITEMS} size={30} />
+                    <span>
+                      <b>Armas MM2</b>
+                      <small>26 godlys disponibles</small>
+                    </span>
+                  </a>
+                  <a className="lx-chip spot" href="#top" onClick={() => setTab("Limiteds")}>
+                    <span className="lx-e">💎</span>
+                    <span>
+                      <b>Limiteds</b>
+                      <small>desde {money(35)}</small>
+                    </span>
+                  </a>
+                  <a className="lx-chip spot" href="#juegos">
+                    <ItemSwap items={GAME_ITEMS} size={30} delay={1300} />
+                    <span>
+                      <b>Ítems in-game</b>
+                      <small>31 juegos disponibles</small>
+                    </span>
+                  </a>
+                </div>
+              </Reveal>
+            </div>
+
+            <Reveal delay={400}>
+              <div className="lx-buy" id="comprar" ref={buyRef}>
+                <span
+                  className="lx-buybg"
+                  aria-hidden="true"
+                  style={{ left: -buyOff.x, top: -buyOff.y, width: buyOff.w }}
+                />
+                <div className="lx-buyh">
+                  <Thumb src={ROBUX_IMG} fallback="🔷" alt="Robux" size={44} />
+                  <div>
+                    <h3>Comprar Robux</h3>
+                    <small>Compra protegida · desde {money(8.5)}/1.000</small>
+                  </div>
+                </div>
+                <div className="lx-bq">
+                  <b>{robuxQty.toLocaleString("es-CO")}</b>
+                  <span>Robux</span>
+                </div>
+                <input
+                  type="range"
+                  min={R_MIN}
+                  max={R_MAX}
+                  step="100"
+                  value={robuxQty}
+                  style={{ "--pct": `${robuxPct}%` } as React.CSSProperties}
+                  onChange={(e) => setRobuxQty(Number(e.target.value))}
+                  aria-label="Cantidad de Robux"
+                />
+                <div className="lx-qs">
+                  {QUICK.map((n) => (
+                    <button key={n} className="lx-qb" aria-pressed={robuxQty === n} onClick={() => setRobuxQty(n)}>
+                      {n.toLocaleString("es-CO")}
+                    </button>
+                  ))}
+                </div>
+                <div className="lx-bt">
+                  <small>Total a pagar</small>
+                  <strong>{money(robuxQty * robuxRate)}</strong>
+                </div>
+                <button className="lx-btn" onClick={() => addToCart("Robux")}>
+                  Comprar Robux
+                </button>
+                <p className="lx-bn">Entrega entre 15 min y 24 h. Nunca pedimos tu contraseña.</p>
               </div>
             </Reveal>
           </div>
+        </section>
+
+        <div className="lx-w">
+          <Reveal>
+            <div className="lx-trust">
+              <div>
+                <b>
+                  <CountUp to={4.9} dec={1} suf=" ★" />
+                </b>
+                <small>9.316 reseñas</small>
+              </div>
+              <div>
+                <b>
+                  <CountUp to={140000} pre="+" />
+                </b>
+                <small>Pedidos entregados</small>
+              </div>
+              <div>
+                <b>2024</b>
+                <small>Operando desde</small>
+              </div>
+              <div>
+                <b>
+                  <CountUp to={15} pre="+" />
+                </b>
+                <small>Métodos de pago</small>
+              </div>
+            </div>
+          </Reveal>
         </div>
 
-        {/* TICKER */}
-        <div className="lx-tick" aria-hidden="true">
+        <div className="lx-tick" style={{ marginTop: 70 }} aria-hidden="true">
           <div className="lx-tk">
             {[...TICKER, ...TICKER].map((t, idx) => (
               <div key={idx}>
@@ -585,77 +683,54 @@ export default function Home() {
           </div>
         </div>
 
-        {/* JUEGOS */}
         <section className="lx-sec" id="juegos">
           <div className="lx-w">
-            <SecHead title="Elige tu" accent="juego" text="Ítems entregados directo en el juego, pagados en tu moneda local." link="Ver todos los juegos" />
+            <SecHead tag="01 · Juegos" title="Elige tu" accent="juego" text="Ítems entregados directo en el juego, pagados en tu moneda local." link="Ver todos los juegos" />
             <Reveal>
               <GameRail icons={icons} />
             </Reveal>
           </div>
         </section>
 
-        {/* TODO LO QUE VENDEMOS */}
+        <section className="lx-sec" id="como">
+          <div className="lx-w">
+            <SecHead tag="02 · Cómo funciona" title="Así de" accent="fácil" text="Tres pasos y tu pedido va en camino." />
+            <Reveal>
+              <div className="lx-steps">
+                {STEPS.map((s) => (
+                  <div key={s[0]} className="lx-step spot">
+                    <b className="lx-sn">{s[0]}</b>
+                    <h3>{s[1]}</h3>
+                    <p>{s[2]}</p>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
         <section className="lx-sec" id="vendemos">
           <div className="lx-w">
-            <SecHead title="Todo lo que" accent="vendemos" text="Robux, armas MM2, Limiteds e ítems in-game. Una vitrina, cuatro mundos." link="Ver catálogo completo" />
+            <SecHead tag="03 · Catálogo" title="Más para tu" accent="inventario" text="Armas MM2, Limiteds e ítems in-game. Los Robux los compras arriba, directo en el inicio." link="Ver catálogo completo" />
             <Reveal>
               <div className="lx-note">
                 <Flag code="co" size={20} />
                 <span>
-                  Precios en <b>Colombia</b> (COP), con el 30 % de impuesto de Roblox cubierto por Pixel Store.
+                  Precios en <b>Colombia</b> (COP), con el 30 % de impuesto de Roblox cubierto por Rbx Latam Store.
                 </span>
               </div>
               <div className="lx-bento">
-                <a className="lx-card spot lx-bc lx-mm" href="#top" onClick={() => setTab("MM2")}>
+                <a className="lx-bc spot lx-mm" href="#top" onClick={() => setTab("MM2")}>
                   <ItemFan items={MM2_ITEMS} />
                   <h3>Armas MM2</h3>
                   <small>
                     186 skins · desde <b>{money(0.08)}</b>
                   </small>
-                  <p style={{ marginTop: 8, color: "var(--mut)", fontSize: 13, maxWidth: "45%" }}>
-                    Cuchillos y armas raras de Murder Mystery 2, al mejor precio.
-                  </p>
+                  <p className="lx-bp">Cuchillos y armas raras de Murder Mystery 2, al mejor precio.</p>
                   <span className="lx-lk">Explorar MM2 →</span>
                 </a>
 
-                <div className="lx-card spot lx-bc lx-rb">
-                  <h3>Robux</h3>
-                  <small>
-                    Compra protegida · desde <b>{money(8.5)}</b>/1.000
-                  </small>
-                  <input
-                    type="range"
-                    min="400"
-                    max="20000"
-                    step="100"
-                    value={robuxQty}
-                    onChange={(e) => setRobuxQty(Number(e.target.value))}
-                    aria-label="Cantidad de Robux"
-                  />
-                  <div className="lx-rr">
-                    <Thumb src={ROBUX_IMG} fallback="🔷" alt="Robux" size={32} />
-                    <b>{robuxQty.toLocaleString("es-CO")}</b>
-                    <span>{money(robuxQty * robuxRate)}</span>
-                  </div>
-                  <div className="lx-rr">
-                    <b>
-                      1.000 <em className="lx-tag">Popular</em>
-                    </b>
-                    <span>{money(8.5)}</span>
-                  </div>
-                  <div className="lx-rr">
-                    <b>
-                      20.000 <em className="lx-tag v">Mejor valor</em>
-                    </b>
-                    <span>{money(160)}</span>
-                  </div>
-                  <button className="lx-btn" style={{ width: "100%", marginTop: 16 }} onClick={() => addToCart("Robux")}>
-                    Comprar Robux
-                  </button>
-                </div>
-
-                <a className="lx-card spot lx-bc lx-lm" href="#top" onClick={() => setTab("Limiteds")}>
+                <a className="lx-bc spot lx-lm" href="#top" onClick={() => setTab("Limiteds")}>
                   <h3>Limiteds 💎</h3>
                   <small>
                     8 coleccionables · desde <b>{money(35)}</b>
@@ -663,7 +738,7 @@ export default function Home() {
                   <span className="lx-lk">Ver coleccionables →</span>
                 </a>
 
-                <a className="lx-card spot lx-bc lx-ig" href="#juegos">
+                <a className="lx-bc spot lx-ig" href="#juegos">
                   <h3>Ítems in-game 🎮</h3>
                   <small>
                     31 juegos · desde <b>{money(0.09)}</b>
@@ -685,10 +760,9 @@ export default function Home() {
           </div>
         </section>
 
-        {/* RANKING */}
         <section className="lx-sec" id="top">
           <div className="lx-w">
-            <SecHead title="Lo que más" accent="se compra" text="El ranking real de los últimos 7 días, contado pedido por pedido." link="Ver catálogo" />
+            <SecHead tag="04 · Ranking" title="Lo que más" accent="se compra" text="El ranking real de los últimos 7 días, contado pedido por pedido." link="Ver catálogo" />
             <div className="lx-tabs" role="group" aria-label="Filtrar ranking">
               {["Todos", "MM2", "Limiteds", "In-game"].map((f) => (
                 <button key={f} aria-pressed={f === tab} onClick={() => setTab(f)}>
@@ -697,152 +771,40 @@ export default function Home() {
               ))}
             </div>
 
-            <div className="lx-top">
-              {filteredProducts.length === 0 ? (
-                <p style={{ color: "var(--mut)" }}>No encontramos nada con esa búsqueda. Prueba otro nombre o cambia de pestaña.</p>
-              ) : (
-                <>
-                  {featuredProduct && (
-                    <div className="lx-card spot lx-big" key={featuredProduct.n}>
-                      <div className="lx-im" style={{ background: `linear-gradient(160deg, ${featuredProduct.bg})` }}>
-                        <span className="lx-pimg">
-                          <Thumb src={featuredProduct.img} fallback={featuredProduct.e} alt={featuredProduct.n} size={170} />
-                        </span>
-                        <div className="lx-rk1">
-                          <span className="lx-mdl">1</span>
-                          <span className="lx-mdl" style={{ background: "linear-gradient(180deg,#FDE047,#F59E0B)", color: "#3A2606" }}>
-                            Más vendido
-                          </span>
-                        </div>
-                      </div>
-                      <div className="lx-bd">
-                        <span className="lx-tag">{featuredProduct.g}</span>
-                        <h3>{featuredProduct.n}</h3>
-                        <small>{featuredProduct.t}</small>
-                        <div className="lx-pr">
-                          <span>{money(featuredProduct.p)}</span>
-                          <button className="lx-btn" onClick={() => addToCart(featuredProduct.n)}>
-                            Comprar
-                          </button>
-                        </div>
-                      </div>
+            {rankProducts.length === 0 ? (
+              <p style={{ color: "var(--mut)" }}>No encontramos nada con esa búsqueda. Prueba otro nombre o cambia de pestaña.</p>
+            ) : (
+              <div className="lx-rank">
+                {rankProducts.map((x, i) => (
+                  <div key={x.n + i} className="lx-pc spot">
+                    <span className="lx-pim" style={{ background: `linear-gradient(160deg, ${x.bg})` }}>
+                      <span className="lx-pn">{String(i + 1).padStart(2, "0")}</span>
+                      {i === 0 && <span className="lx-hot">Más vendido</span>}
+                      <span className="lx-pimg">
+                        <Thumb src={x.img} fallback={x.e} alt={x.n} size={90} />
+                      </span>
+                    </span>
+                    <div className="lx-pb">
+                      <span className="lx-tag">{x.g}</span>
+                      <b>{x.n}</b>
+                      <small>{x.t}</small>
                     </div>
-                  )}
-                  <div className="lx-lst">
-                    {listProducts.map((x, i) => (
-                      <div key={x.n + i} className="lx-card spot lx-row">
-                        <span className={`lx-mdl ${["s", "c"][i] || ""}`}>{i + 2}</span>
-                        <span className="lx-th" style={{ background: `linear-gradient(160deg, ${x.bg})` }}>
-                          <Thumb src={x.img} fallback={x.e} alt={x.n} size={40} />
-                        </span>
-                        <div>
-                          <b>{x.n}</b>
-                          <small>
-                            {x.g} · {x.t}
-                          </small>
-                        </div>
-                        <strong>{money(x.p)}</strong>
-                      </div>
-                    ))}
+                    <div className="lx-pf">
+                      <strong>{money(x.p)}</strong>
+                      <button className="lx-btn sm" onClick={() => addToCart(x.n)}>
+                        Comprar
+                      </button>
+                    </div>
                   </div>
-                </>
-              )}
-            </div>
-          </div>
-        </section>
-
-        {/* ESTADÍSTICAS */}
-        <section className="lx-sec">
-          <div className="lx-w">
-            <h2 style={{ textAlign: "center", fontSize: "clamp(26px,3.6vw,40px)", marginBottom: 24 }}>
-              <Split text="Miles" /> <Split text="confían en nosotros" grad start={1} />
-            </h2>
-            <Reveal>
-              <div className="lx-stats">
-                <div className="lx-card spot">
-                  <b>
-                    <CountUp to={4.9} dec={1} suf=" ★" />
-                  </b>
-                  <small>9.316 reseñas</small>
-                </div>
-                <div className="lx-card spot">
-                  <b>
-                    <CountUp to={140000} pre="+" />
-                  </b>
-                  <small>Pedidos entregados</small>
-                </div>
-                <div className="lx-card spot">
-                  <b>2024</b>
-                  <small>Operando desde</small>
-                </div>
-                <div className="lx-card spot">
-                  <b>
-                    <CountUp to={15} pre="+" />
-                  </b>
-                  <small>Métodos de pago</small>
-                </div>
+                ))}
               </div>
-            </Reveal>
+            )}
           </div>
         </section>
 
-        {/* CASHBACK */}
-        <section className="lx-sec" id="cashback">
-          <div className="lx-w">
-            <div className="lx-cb">
-              <div>
-                <div className="lx-sh">
-                  <div>
-                    <h2>
-                      <Split text="Cada compra te" /> <Split text="devuelve dinero" grad start={3} />
-                    </h2>
-                    <Reveal delay={150}>
-                      <p>Comprar suma XP. Subes de rango y recibes hasta el 3 % de cada pedido como saldo, automático y sin códigos.</p>
-                    </Reveal>
-                  </div>
-                </div>
-                <Reveal delay={250}>
-                  <div className="lx-card lx-vs">
-                    <div>
-                      <small>Gastas</small>
-                      <b>$320.000</b>
-                    </div>
-                    <span style={{ color: "rgba(255,255,255,.35)", fontSize: 24 }}>→</span>
-                    <div style={{ textAlign: "right" }}>
-                      <small style={{ color: "#34D399" }}>Vuelve a tu saldo</small>
-                      <b style={{ color: "#34D399" }}>+$9.600</b>
-                    </div>
-                    <p>Automático en cada pedido, sin códigos. Hasta 3 % según tu rango, y tu saldo sirve en cualquier compra.</p>
-                  </div>
-                </Reveal>
-              </div>
-
-              <Reveal delay={200}>
-                <div className="lx-rks">
-                  {RANKS.map((r, idx) => (
-                    <div key={idx} className="lx-card spot">
-                      <span className="lx-m">{r[0]}</span>
-                      <p>{r[1]}</p>
-                      <b>{r[2]}</b>
-                      <small>{r[3]}</small>
-                    </div>
-                  ))}
-                  <div className="lx-card spot lx-pro">
-                    <span className="lx-m">⭐</span>
-                    <p>Pixel Plus</p>
-                    <b>5 %</b>
-                    <small>Cashback fijo, sin importar tu rango</small>
-                  </div>
-                </div>
-              </Reveal>
-            </div>
-          </div>
-        </section>
-
-        {/* MÉTODOS DE PAGO */}
         <PaySection />
+        <FlagStrip />
 
-        {/* FAQ */}
         <section className="lx-sec" id="faq">
           <div className="lx-w">
             <div className="lx-faq">
@@ -853,7 +815,7 @@ export default function Home() {
                 <Reveal delay={150}>
                   <p style={{ color: "var(--mut)", marginTop: 12 }}>¿Más dudas? Escríbenos y te respondemos al instante, todos los días.</p>
                   <div className="lx-card spot lx-sup">
-                    <h3 style={{ fontSize: 16 }}>¿Te quedaste con dudas?</h3>
+                    <h3>¿Te quedaste con dudas?</h3>
                     <p>El soporte humano responde en minutos, todos los días.</p>
                     <button className="lx-btn">Hablar con soporte</button>
                   </div>
@@ -870,48 +832,20 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-        {/* CTA FINAL */}
-        <section className="lx-sec">
-          <div className="lx-w">
-            <Reveal>
-              <div className="lx-cta">
-                <div>
-                  <h2>
-                    <Split text="Tu primer pedido puede" /> <Split text="llegar hoy mismo" grad start={4} />
-                  </h2>
-                  <p style={{ color: "var(--mut)", margin: "14px 0 22px", maxWidth: "30em" }}>
-                    Robux, MM2, Limiteds e ítems in-game al mejor precio de LATAM, con compra 100 % protegida y soporte todos los días.
-                  </p>
-                  <a className="lx-btn" href="#top">
-                    Comprar ahora
-                  </a>
-                </div>
-                <div className="lx-mini">
-                  <a className="lx-card spot" href="#vendemos">
-                    <span className="lx-e">🔷</span>Robux
-                  </a>
-                  <a className="lx-card spot" href="#top" onClick={() => setTab("MM2")}>
-                    <ItemSwap items={MM2_ITEMS} size={36} delay={700} />Armas MM2
-                  </a>
-                  <a className="lx-card spot" href="#top" onClick={() => setTab("Limiteds")}>
-                    <span className="lx-e">💎</span>Limiteds
-                  </a>
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </section>
       </main>
 
       <div className="lx-foot">
         <div className="lx-w">
           <div className="lx-fg">
             <div>
-              <a className="lx-logo" href="#">
-                <img className="lx-logoimg" src="/img/logo-4x.png" alt="Pixel Store" />
-              </a>
+              <Brand />
               <p style={{ marginTop: 12, maxWidth: "20em" }}>Compra productos de Roblox de forma segura, rápida y económica.</p>
+              <p className="lx-latf">🌎 Hecho en Latinoamérica, para Latinoamérica</p>
+              <div className="lx-fls sm">
+                {LATAM.map((c) => (
+                  <Flag key={c[0]} code={c[0]} size={20} />
+                ))}
+              </div>
             </div>
             <div>
               <h4>Tienda</h4>
@@ -919,7 +853,6 @@ export default function Home() {
                 <li>Catálogo</li>
                 <li>Robux</li>
                 <li>Grupos</li>
-                <li>Pixel Plus</li>
               </ul>
             </div>
             <div>
@@ -947,7 +880,7 @@ export default function Home() {
             </div>
           </div>
           <p className="lx-fine">
-            © 2026 Pixel Store · Términos · Privacidad
+            © 2026 Rbx Latam Store · Términos · Privacidad
             <br />
             Servicio independiente. No estamos afiliados, asociados ni respaldados por Roblox Corporation. Todas las marcas pertenecen a sus respectivos propietarios.
           </p>
@@ -983,13 +916,6 @@ export default function Home() {
             <path d="M14 7h7v7" />
           </Ico>
           Top
-        </a>
-        <a href="#cashback" className={active === "cashback" ? "on" : ""}>
-          <Ico>
-            <circle cx="12" cy="12" r="9" />
-            <path d="M12 7v10M15 9.5c-.5-1-1.6-1.5-3-1.5-1.7 0-3 .8-3 2s1.3 1.8 3 2 3 .8 3 2-1.3 2-3 2c-1.4 0-2.5-.5-3-1.5" />
-          </Ico>
-          Cashback
         </a>
       </nav>
 
