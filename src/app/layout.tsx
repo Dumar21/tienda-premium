@@ -16,7 +16,7 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
-  title: "Rbx Latam Store: Robux e ítems de Roblox",
+  title: "RbxLatamStore: Robux e ítems de Roblox",
   description: "Robux, armas MM2, Limiteds e ítems in-game al mejor precio de LATAM, con +140.000 pedidos entregados.",
 };
 
